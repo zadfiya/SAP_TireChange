@@ -7,31 +7,51 @@ import fullSizeCarImg from "../../resources/images/sedan.png";
 import class2CarImg from "../../resources/images/truck.png";
 
 import styles from "./Dashboard.styles";
+import DashboardTile from "./components/DashboardTile/DashboardTile";
 
 const data = [
   {
     title: "Compact Cars",
-    figures: 10,
+    revenue: 23,
+    lostRevenue: 23,
+    gainedCustomers: 23,
+    lostCustomers: 23,
+
     Icon: <styles.Img src={CompactCarImg} />,
   },
   {
     title: "Medium Cars",
-    figures: 10,
+    revenue: 23,
+    lostRevenue: 23,
+    gainedCustomers: 23,
+    lostCustomers: 23,
     Icon: <styles.Img src={MediumCarImg} />,
   },
   {
     title: "Full Size Cars",
-    figures: 10,
+    revenue: 23,
+    lostRevenue: 23,
+    gainedCustomers: 23,
+    lostCustomers: 23,
+
     Icon: <styles.Img src={fullSizeCarImg} />,
   },
   {
     title: "Class 1 Cars",
-    figures: 10,
+    revenue: 23,
+    lostRevenue: 23,
+    gainedCustomers: 23,
+    lostCustomers: 23,
+
     Icon: <styles.Img src={class1CarImg} />,
   },
   {
     title: "Class 2 Cars",
-    figures: 10,
+    revenue: 23,
+    lostRevenue: 23,
+    gainedCustomers: 23,
+    lostCustomers: 23,
+
     Icon: <styles.Img src={class2CarImg} />,
   },
 ];
@@ -41,11 +61,15 @@ const Dashboard = () => {
     <styles.Container>
       {data.map((item, index) => {
         return (
-          <Tile
+          <DashboardTile
             isLoading={false}
             title={item.title}
             Icon={item.Icon}
-            figures={item.figures}
+            revenue={item.revenue}
+            lostRevenue={item.lostRevenue}
+            gainedCustomers={item.gainedCustomers}
+            lostCustomers={item.lostCustomers}
+            // revenue={item.revenue}
           />
         );
       })}
