@@ -8,4 +8,4 @@
 **/.env
 **/.env_old
 **/robots.txt
-*.json
+package-lock.json
