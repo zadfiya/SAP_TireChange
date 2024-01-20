@@ -1,4 +1,4 @@
-const { give_response } = require("../helper/helper");
+const { give_response } = require("./helper");
 
 const errorHandler = (err, req, res, next) => {
     let message;
