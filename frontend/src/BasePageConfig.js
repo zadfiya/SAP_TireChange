@@ -1,13 +1,13 @@
 import { lazy } from "react";
 
 const DashboardPage = lazy(() =>
-  import("./Pages/Dashboard/Dashboard.js" /* webpackChunkName: "Dashboard" */)
+  import("./pages/Dashboard/Dashboard.js" /* webpackChunkName: "Dashboard" */)
 );
 const BookingsPage = lazy(() =>
-  import("./Pages/Bookings/Bookings.js" /* webpackChunkName: "Bookings" */)
+  import("./pages/Bookings/Bookings.js" /* webpackChunkName: "Bookings" */)
 );
 
-export const customRoutes =  [
+export const customRoutes = [
   {
     path: "/dashboard/*",
     Component: DashboardPage,
