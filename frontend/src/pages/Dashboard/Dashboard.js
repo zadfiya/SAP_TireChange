@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Tile from "../../ui/Tile/Tile";
-import MediumCarImg from "../../resources/images/compact-car.png";
-import CompactCarImg from "../../resources/images/car.png";
-import class1CarImg from "../../resources/images/container-truck.png";
-import fullSizeCarImg from "../../resources/images/sedan.png";
-import class2CarImg from "../../resources/images/truck.png";
+import MediumCarImg from "../../resources/images/medium.png";
+import CompactCarImg from "../../resources/images/compact.png";
+import class1CarImg from "../../resources/images/class-1-truck.png";
+import fullSizeCarImg from "../../resources/images/full-size.png";
+import class2CarImg from "../../resources/images/class-2-truck.png";
 
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -14,11 +14,8 @@ import DashboardTile from "./components/DashboardTile/DashboardTile";
 import { Box, Chip } from "@mui/material";
 
 import { useTheme } from "@mui/material/styles";
-
 // import Graphs from "../../components/Graphs/Graphs";
 import Page from "../Page";
-import { getDashboardData } from "../../apis/apis";
-import { dollar } from "../../utils/utils";
 const data = [
   {
     title: "Compact Cars",
@@ -67,33 +64,20 @@ const data = [
 ];
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState(null);
-
-  useEffect(() => {
-    setLoading(true);
-    getDashboardData()
-      .then((res) => {
-        console.log(res);
-        setDashboardData(res.data);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
-      });
-  }, []);
-
   const theme = useTheme();
+  const isToday = true;
 
   return (
-    <Page title={"Dashboard"}>
+    <Page>
       <styles.Container>
         <styles.TilesContainer>
-          <Tile
-            isLoading={loading}
+          {/* <Tile
             // title={"Total Revenue"}
-            Icon={<styles.Img src={class2CarImg} />}
+            Icon={
+              <div style={{ width: "140px" }}>
+                <styles.Img src={class2CarImg} />
+              </div>
+            }
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -111,18 +95,19 @@ const Dashboard = () => {
               color={theme.palette.success.light}
               fontSize={"3rem"}
               fontWeight={600}
-              textAlign={"right"}
             >
-              {dollar(dashboardData?.totalReveneue)}
+              $1200
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Gained Revenue
             </Box>
           </Tile>
           <Tile
-            isLoading={loading}
             // title={"Total Revenue"}
-            Icon={<styles.Img src={class2CarImg} />}
+            Icon={
+              <div style={{ width: "140px" }}>
+                <styles.Img src={class2CarImg} />
+              </div>}
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -134,42 +119,30 @@ const Dashboard = () => {
                 justifyContent: "left",
                 flex: 1,
               },
-              titleStyles: {},
             }}
           >
             <Box
               color={theme.palette.error.light}
               fontSize={"3rem"}
               fontWeight={600}
-              textAlign={"right"}
             >
-              {dollar(dashboardData?.totalTurnedaway)}
+              $100
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Lost Revenue
             </Box>
-          </Tile>
+          </Tile> */}
 
           {data.map((item, index) => {
             return (
               <DashboardTile
-                isLoading={loading}
+                isLoading={false}
                 title={item.title}
-                Icon={item.Icon}
-                revenue={dollar(
-                  dashboardData?.vehicleWise?.[index]?.totalReveneue
-                )}
-                lostRevenue={dollar(
-                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway
-                )}
-                gainedCustomers={
-                  dashboardData?.vehicleWise?.[index]?.totalReveneue /
-                  dashboardData?.vehicleWise?.[index]?.id?.charge
-                }
-                lostCustomers={
-                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway /
-                  dashboardData?.vehicleWise?.[index]?.id?.charge
-                }
+                Icon={<div style={{ width: "140px" }}>{item.Icon}</div>}
+                revenue={item.revenue}
+                lostRevenue={item.lostRevenue}
+                gainedCustomers={item.gainedCustomers}
+                lostCustomers={item.lostCustomers}
                 // revenue={item.revenue}
               />
             );
