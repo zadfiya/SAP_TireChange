@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Tile from "../../ui/Tile/Tile";
-import MediumCarImg from "../../resources/images/medium.png";
-import CompactCarImg from "../../resources/images/compact.png";
-import class1CarImg from "../../resources/images/class-1-truck.png";
-import fullSizeCarImg from "../../resources/images/full-size.png";
-import class2CarImg from "../../resources/images/class-2-truck.png";
+import MediumCarImg from "../../resources/images/compact-car.png";
+import CompactCarImg from "../../resources/images/car.png";
+import class1CarImg from "../../resources/images/container-truck.png";
+import fullSizeCarImg from "../../resources/images/sedan.png";
+import class2CarImg from "../../resources/images/truck.png";
 
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -68,16 +68,12 @@ const Dashboard = () => {
   const isToday = true;
 
   return (
-    <Page>
+    <Page title={"Dashboard"}>
       <styles.Container>
         <styles.TilesContainer>
-          {/* <Tile
+          <Tile
             // title={"Total Revenue"}
-            Icon={
-              <div style={{ width: "140px" }}>
-                <styles.Img src={class2CarImg} />
-              </div>
-            }
+            Icon={<styles.Img src={class2CarImg} />}
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -104,10 +100,7 @@ const Dashboard = () => {
           </Tile>
           <Tile
             // title={"Total Revenue"}
-            Icon={
-              <div style={{ width: "140px" }}>
-                <styles.Img src={class2CarImg} />
-              </div>}
+            Icon={<styles.Img src={class2CarImg} />}
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -131,14 +124,14 @@ const Dashboard = () => {
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Lost Revenue
             </Box>
-          </Tile> */}
+          </Tile>
 
           {data.map((item, index) => {
             return (
               <DashboardTile
                 isLoading={false}
                 title={item.title}
-                Icon={<div style={{ width: "140px" }}>{item.Icon}</div>}
+                Icon={item.Icon}
                 revenue={item.revenue}
                 lostRevenue={item.lostRevenue}
                 gainedCustomers={item.gainedCustomers}
