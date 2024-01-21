@@ -41,7 +41,7 @@ const getBookingByDate = asyncHandler(async(req,res)=>{
     }
     else
     {
-        give_response(res,400,`Statistics not found for Date: ${formattedDate}`)
+        give_response(res,201,`Statistics not found for Date: ${formattedDate}`)
     }
 })
 
@@ -88,4 +88,23 @@ const csvToDB=async (body)=>{
     // }
 }
 
-module.exports = {saveBookingToDB,getAllBookingsFrmDB,getBookingByDate,addDummyData,csvToDB}
+const walkin = asyncHandler(async(req,res)=>{
+    let {date,bay,vehicleType} = req.body
+    const availableBookings = await Booking.find({
+        date: date,
+        'data.Bookings': {
+          $elemMatch: {
+            $and:[{$or: [
+                { bay: { $exists: false } }, // Include documents where 'bay' does not exist
+                { bay: bay },
+                { bay: { $gt: 5 } }
+              ],},{status:"Serviced"}]
+            
+            
+          }
+        }
+      });
+        give_response(res,200,true,"",availableBookings)
+})
+
+module.exports = {saveBookingToDB,getAllBookingsFrmDB,getBookingByDate,addDummyData,csvToDB,walkin}
