@@ -1,10 +1,10 @@
 const express = require("express");
 // const ETLCSV = require("./src/crons/ETLCSV.js")
-const ExtractCSV = require("./src/crons/ExtractCSV");
+const ExtractCSV = require("./src/cron/ExtractCSV")
 require("dotenv").config();
 var cors = require("cors");
-const connectDB  = require("./Src/Config/DB");
-const indexRouter = require("./Src/Routes/index");
+const connectDB  = require("./src/config/DB");
+const indexRouter = require("./src/routes/index");
 const app = express();
 
 // ETLCSV()

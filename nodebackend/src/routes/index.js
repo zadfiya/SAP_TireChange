@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
-const VehicleRouter = require("./vehicle");
-const BookingRouter = require("./Booking");
-const MasterRouter = require("./Master")
+const VehicleRouter = require("./vehicleRoute");
+const BookingRouter = require("./bookingRoute");
+const MasterRouter = require("./masterRoute")
 
 app.use("/vehicle",VehicleRouter);
 app.use("/booking",BookingRouter);

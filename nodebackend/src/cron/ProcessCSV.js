@@ -1,3 +1,4 @@
+const {csvToDB} = require("../controller/bookingController")
 const bookingData = {}
 const carMap = {
     "compact": 30,
@@ -24,11 +25,11 @@ const bay = {
 }
 
 const idMap = {
-    "compact": 1,
-    "medium": 2,
-    "full-size": 3,
-    "class 1 truck": 4,
-    "class 2 truck": 5
+    "compact": "65ac38201345cb2eea7dd1c1",
+    "medium": "65ac382f1345cb2eea7dd1c4",
+    "full-size": "65ac38341345cb2eea7dd1c6",
+    "class 1 truck": "65ac38651345cb2eea7dd1c8",
+    "class 2 truck": "65ac38701345cb2eea7dd1ca"
 }
 
 const bayLength = 5;
@@ -71,11 +72,47 @@ const ProcessCSV = (dataFile) => {
     for(date of Object.keys(bookingData)) {
         let dbData = {
             "date": date,
-            "totalRevenue": 0,
-            "totalTurnedAway": 0,
-            "acceptedCusomters": 0,
-            "turnedAwayCustomers": 0,
-            "Bookings": []
+            "data": {
+                "totalRevenue": 0,
+                "totalTurnedAway": 0,
+                "acceptedCustomers": 0,
+                "turnedAwayCustomers": 0,
+                "Bookings": [],
+                "vehicleWise": []
+            }
+        }
+
+        let vehiclesData = {
+            "compact": {
+                totalRevenue: 0,
+                acceptedCustomers: 0,
+                turnedAwayCustomers: 0,
+                totalTurnedAway: 0
+            },
+            "medium": {
+                totalRevenue: 0,
+                acceptedCustomers: 0,
+                turnedAwayCustomers: 0,
+                totalTurnedAway: 0
+            },
+            "full-size": {
+                totalRevenue: 0,
+                acceptedCustomers: 0,
+                turnedAwayCustomers: 0,
+                totalTurnedAway: 0
+            },
+            "class 1 truck": {
+                totalRevenue: 0,
+                acceptedCustomers: 0,
+                turnedAwayCustomers: 0,
+                totalTurnedAway: 0
+            },
+            "class 2 truck": {
+                totalRevenue: 0,
+                acceptedCustomers: 0,
+                turnedAwayCustomers: 0,
+                totalTurnedAway: 0
+            }
         }
 
         let slots = {
@@ -86,7 +123,8 @@ const ProcessCSV = (dataFile) => {
                 "class 1 truck": [],
                 "class 2 truck": []
             },
-            regular: []
+            regular: [],
+            turnedAwaySlots:[]
             
         }
         
@@ -114,10 +152,15 @@ const ProcessCSV = (dataFile) => {
             if (booking.startTime < openingHour || booking.endTime > closingHour) {
                 // console.log(booking.startTime , openingHour , booking.endTime , closingHour);
                 booking["status"] = "TurnedAway"
+                dbData.data.totalTurnedAway += carRevenueMap[booking.vehicleType]
+                vehiclesData[booking["vehicleType"]].totalTurnedAway += carRevenueMap[booking.vehicleType]
+                vehiclesData[booking["vehicleType"]].turnedAwayCustomers += 1
+                booking["vehicleType"] = idMap[booking.vehicleType]
                 slots.turnedAwaySlots.push(booking);
-                dbData.Bookings.push(booking);
-                dbData.totalTurnedAway += carRevenueMap[booking.vehicleType]
-                dbData.turnedAwayCustomers += 1
+                dbData.data.Bookings.push(booking);
+                dbData.data.turnedAwayCustomers += 1
+                
+                
                 continue;
             }
 
@@ -125,10 +168,13 @@ const ProcessCSV = (dataFile) => {
                 // Add to dedicated Slot
                 booking["status"] = "Serviced";
                 booking["bay"] = bay[booking.vehicleType];
-                dbData.totalRevenue += carRevenueMap[booking.vehicleType]
-                dbData.acceptedCusomters += 1
+                dbData.data.totalRevenue += carRevenueMap[booking.vehicleType]
+                vehiclesData[booking["vehicleType"]].totalRevenue += carRevenueMap[booking.vehicleType]
+                vehiclesData[booking["vehicleType"]].acceptedCustomers += 1
+                booking["vehicleType"] = idMap[booking.vehicleType]
+                dbData.data.acceptedCustomers += 1
                 dedicatedSlot.push(booking);
-                dbData.Bookings.push(booking);
+                dbData.data.Bookings.push(booking);
             }
             else {
                 // Check for Slot in regular Slot
@@ -139,10 +185,13 @@ const ProcessCSV = (dataFile) => {
 
                         booking["status"] = "Serviced";
                         booking["bay"] = (i + 1 + bayLength);
-                        dbData.totalRevenue += carRevenueMap[booking.vehicleType]
-                        dbData.acceptedCusomters += 1
+                        dbData.data.totalRevenue += carRevenueMap[booking.vehicleType]
+                        dbData.data.acceptedCustomers += 1
+                        vehiclesData[booking["vehicleType"]].totalRevenue += carRevenueMap[booking.vehicleType]
+                        vehiclesData[booking["vehicleType"]].acceptedCustomers += 1
+                        booking["vehicleType"] = idMap[booking.vehicleType]
                         regularSlot[i].push(booking);
-                        dbData.Bookings.push(booking);
+                        dbData.data.Bookings.push(booking);
                         isBooked = true;
                         break;
                     }
@@ -150,10 +199,13 @@ const ProcessCSV = (dataFile) => {
 
                 if(!isBooked) {
                     booking["status"] = "TurnedAway";
+                    dbData.data.totalTurnedAway += carRevenueMap[booking.vehicleType];
+                    vehiclesData[booking["vehicleType"]].totalTurnedAway += carRevenueMap[booking.vehicleType]
+                    vehiclesData[booking["vehicleType"]].turnedAwayCustomers += 1
+                    booking["vehicleType"] = idMap[booking.vehicleType]
                     slots.turnedAwaySlots.push(booking);
-                    dbData.Bookings.push(booking);
-                    dbData.totalTurnedAway += carRevenueMap[booking.vehicleType]
-                    dbData.turnedAwayCustomers += 1
+                    dbData.data.Bookings.push(booking);
+                    dbData.data.turnedAwayCustomers += 1
                 }
             }
         }
@@ -166,9 +218,12 @@ const ProcessCSV = (dataFile) => {
         //     console.log(date, " +++ ", bookingData[date].length," +++ ", slots.totalRevenue, " +++ ",slots.totalTurnedAwayRevenue, "  +++  ", total)
         //     console.log(slots.regular[3].reduce((a, b) => a + carRevenueMap[b.vehicleType], 0));
         // }
-        // finalTotalProfit += slots.totalRevenue;
+        // finalTotalProfit += slots.totalRevenue;  
         // finalTotalLostt += slots.totalTurnedAwayRevenue;
-        console.log(dbData);
+        for (let key of Object.keys(vehiclesData)) {
+            dbData.data.vehicleWise.push({vehicleid: idMap[key], ...vehiclesData[key]})
+        }
+        csvToDB(dbData)
     }
 }
 

@@ -1,5 +1,5 @@
-const asyncHandler = require("../Middleware/async");
-const Vehicle = require("../Model/Vehicle");
+const asyncHandler = require("../middleware/async");
+const Vehicle = require("../model/vehicleModel");
 const {give_response} = require("../helper/helper")
 
 const addVehicleIntoDB = asyncHandler(async(req,res)=>{
