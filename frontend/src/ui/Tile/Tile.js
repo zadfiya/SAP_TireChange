@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Paper } from "@mui/material";
+import { CircularProgress, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const Tile = ({
@@ -24,10 +24,12 @@ const Tile = ({
         display: "flex",
         flexDirection: "column",
         gap: "5px",
-        // alignItems: "center",
+        alignItems: "center",
         padding: "5px",
+        height: isLoading ? "200px" : "auto",
         // gap: "10px",
         backgroundColor: "#fff",
+
         ...rootStyles,
         // cursor: onClickCard ? "pointer" : "initial",
         // "&:hover": {
@@ -68,7 +70,17 @@ const Tile = ({
           {title}
         </Box>
       </Box>
-      <Box sx={{ ...bodyStyles }}>{children}</Box>
+      <Box
+        sx={{
+          ...bodyStyles,
+          ...(isLoading && {
+            alignItems: "center",
+            justifyContent: "center",
+          }),
+        }}
+      >
+        {isLoading ? <CircularProgress /> : children}
+      </Box>
     </Box>
   );
 };

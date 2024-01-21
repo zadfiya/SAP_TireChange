@@ -105,7 +105,7 @@ const Dashboard = () => {
               fontSize={"3rem"}
               fontWeight={600}
             >
-              $1200
+              {dashboardData?.totalReveneue}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Gained Revenue
@@ -132,7 +132,7 @@ const Dashboard = () => {
               fontSize={"3rem"}
               fontWeight={600}
             >
-              $100
+              {dashboardData?.totalTurnedaway}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Lost Revenue
