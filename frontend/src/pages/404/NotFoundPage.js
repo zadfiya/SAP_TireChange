@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { Helmet } from "react-helmet-async";
+// import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import NotFound from "../../assets/illustration_404.svg";

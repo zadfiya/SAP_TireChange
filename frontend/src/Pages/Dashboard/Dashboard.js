@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tile from "../../ui/Tile/Tile";
 import MediumCarImg from "../../resources/images/compact-car.png";
 import CompactCarImg from "../../resources/images/car.png";
@@ -16,6 +16,7 @@ import { Box, Chip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 // import Graphs from "../../components/Graphs/Graphs";
 import Page from "../Page";
+import { getDashboardData } from "../../apis/apis";
 const data = [
   {
     title: "Compact Cars",
@@ -64,6 +65,18 @@ const data = [
 ];
 
 const Dashboard = () => {
+  const [loading, setLoading] = useState(false);
+  const [dashboardData, setDashboardData] = useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    getDashboardData().then((res) => {
+      console.log(res);
+      setDashboardData(res.data);
+      setLoading(false);
+    });
+  }, []);
+
   const theme = useTheme();
   const isToday = true;
 
@@ -129,11 +142,13 @@ const Dashboard = () => {
           {data.map((item, index) => {
             return (
               <DashboardTile
-                isLoading={false}
+                isLoading={loading}
                 title={item.title}
                 Icon={item.Icon}
-                revenue={item.revenue}
-                lostRevenue={item.lostRevenue}
+                revenue={dashboardData?.vehicleWise?.[index]?.totalReveneue}
+                lostRevenue={
+                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway
+                }
                 gainedCustomers={item.gainedCustomers}
                 lostCustomers={item.lostCustomers}
                 // revenue={item.revenue}
