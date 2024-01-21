@@ -1,4 +1,5 @@
 import { lazy } from "react";
+// import Stats from "./pages/Stats/Stats.js";
 
 const DashboardPage = lazy(() =>
   import("./pages/Dashboard/Dashboard.js" /* webpackChunkName: "Dashboard" */)
@@ -6,12 +7,15 @@ const DashboardPage = lazy(() =>
 const BookingsPage = lazy(() =>
   import("./pages/Bookings/Bookings.js" /* webpackChunkName: "Bookings" */)
 );
+const StatsPage = lazy(() =>
+  import("./pages/Stats/Stats.js" /* webpackChunkName: "Stats" */)
+);
 
 export const customRoutes = [
   {
     path: "/dashboard/*",
     Component: DashboardPage,
-    isActive: true,
+    isActive: false,
   },
   {
     path: "/",
@@ -21,6 +25,11 @@ export const customRoutes = [
   {
     path: "/bookings/*",
     Component: BookingsPage,
-    isActive: true,
+    isActive: false,
+  },
+  {
+    path: "/stats/*",
+    Component: StatsPage,
+    isActive: false,
   },
 ];
