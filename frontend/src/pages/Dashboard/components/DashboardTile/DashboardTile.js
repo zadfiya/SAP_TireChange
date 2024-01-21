@@ -32,7 +32,7 @@ const TileScetion = ({
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "center",
         }}
         color={(theme) => theme.palette.success.light}
@@ -53,7 +53,7 @@ const TileScetion = ({
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "center",
         }}
       >
