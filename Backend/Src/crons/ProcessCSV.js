@@ -15,6 +15,14 @@ const carRevenueMap = {
     "class 2 truck": 700
 }
 
+const bay = {
+    "compact": 1,
+    "medium": 2,
+    "full-size": 3,
+    "class 1 truck": 4,
+    "class 2 truck": 5
+}
+
 const bayLength = 5;
 
 function parseDateString(dateString) {
@@ -101,6 +109,7 @@ const ProcessCSV = (dataFile) => {
             if (dedicatedSlot.length == 0 || dedicatedSlot[dedicatedSlot.length - 1].endTime < booking.startTime) {
                 // Add to dedicated Slot
                 booking["status"] = "Serviced";
+                booking["bay"] = bay[booking.vehicleType];
                 slots.totalRevenue += carRevenueMap[booking.vehicleType];
                 dedicatedSlot.push(booking);
             }
@@ -112,6 +121,7 @@ const ProcessCSV = (dataFile) => {
                         // Add to dedicated Slot
 
                         booking["status"] = "Serviced";
+                        booking["bay"] = (i + 1 + bayLength);
                         slots.totalRevenue += carRevenueMap[booking.vehicleType];
                         regularSlot[i].push(booking);
                         isBooked = true;
