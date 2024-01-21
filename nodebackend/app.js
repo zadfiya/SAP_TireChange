@@ -6,9 +6,8 @@ var cors = require("cors");
 const connectDB  = require("./src/config/DB");
 const indexRouter = require("./src/routes/index");
 const app = express();
-
 // ETLCSV()
-ExtractCSV()
+//ExtractCSV()
 connectDB();
 app.use(cors())
 app.use(express.json());
