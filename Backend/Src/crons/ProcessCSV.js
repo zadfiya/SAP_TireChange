@@ -52,9 +52,6 @@ const ProcessCSV = (dataFile) => {
         });
     });
 
-    let finalTotalProfit = 0;
-    let finalTotalLostt = 0;
-
     for(date of Object.keys(bookingData)) {
         let x = [];
         let slots = {
