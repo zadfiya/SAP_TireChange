@@ -15,6 +15,7 @@ const BasePage = () => {
           ({ path, Component, isActive }) =>
             isActive && <Route key={path} path={path} element={<Component />} />
         )}
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Switch>
     </Suspense>
   )

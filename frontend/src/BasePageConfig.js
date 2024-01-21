@@ -1,6 +1,9 @@
 import { lazy } from "react";
 // import Stats from "./pages/Stats/Stats.js";
 
+const NotFoundPage = lazy(() =>
+  import("./pages/404/NotFoundPage.js" /* webpackChunkName: "NotFoundPage" */)
+);
 const DashboardPage = lazy(() =>
   import("./pages/Dashboard/Dashboard.js" /* webpackChunkName: "Dashboard" */)
 );
@@ -31,5 +34,10 @@ export const customRoutes = [
     path: "/stats/*",
     Component: StatsPage,
     isActive: false,
+  },
+  {
+    path: "/404/*",
+    Component: NotFoundPage,
+    isActive: true,
   },
 ];

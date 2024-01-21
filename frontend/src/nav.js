@@ -87,7 +87,8 @@ function NavItem({ item }) {
   return (
     <ListItemButton
       component={Link}
-      href={item.path}
+      to={item.path}
+      
       sx={{
         minHeight: 44,
         borderRadius: 0.75,
