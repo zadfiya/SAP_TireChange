@@ -22,12 +22,16 @@ const Tile = ({
       component={Paper}
       sx={{
         display: "flex",
-        flexDirection: "column",
-        gap: "5px",
+        flexDirection: "row",
+        alignItems: "center",
+        // gap: "5px",
         // alignItems: "center",
-        padding: "5px",
+        // padding: "5px",
         // gap: "10px",
         backgroundColor: "#fff",
+        borderRadius: "30px",
+        padding: "10px 14px",
+        boxShadow: "0px 10px 10px 8px #E2ECF9",
         ...rootStyles,
         // cursor: onClickCard ? "pointer" : "initial",
         // "&:hover": {
@@ -45,7 +49,7 @@ const Tile = ({
           alignItems: "center",
           justifyContent: "center",
           gap: "10px",
-          height: "55px",
+          height: "64px",
           ...titleContainerStyles,
           // backgroundColor: textColor,
           // color: theme.palette.getContrastText(textColor),

@@ -6,12 +6,12 @@ const Page = ({ title, children }) => {
     <Box
       width={"100%"}
       height={"100%"}
-      component={Paper}
+      // component={Paper}
       minWidth={0}
       padding={"20px"}
     >
       <Box fontSize={"2rem"}>{title}</Box>
-      <Box padding={"20px 0px"}>{children}</Box>
+      <Box padding={"0px 0px"}>{children}</Box>
     </Box>
   );
 };

@@ -16,9 +16,9 @@ const TileScetion = ({
     sx={{
       display: "flex",
       flexDirection: "column",
-      textAlign: "left",
+      textAlign: "center",
       flex: 1,
-      backgroundColor: "#efefef",
+      backgroundColor: "#fff",
       borderRadius: "10px",
       padding: "10px",
       gap: "5px",
@@ -27,23 +27,47 @@ const TileScetion = ({
     <Box fontSize={"1rem"} fontWeight={600}>
       {title}
     </Box>
-    <Box sx={{ display: "flex", gap: "5px" }}>
-      <Box flex={1} color={(theme) => theme.palette.success.light}>
-        <Box sx={{ fontSize: "2rem", lineHeight: 1, fontWeight: 700 }}>
+    <Box sx={{ display: "flex", gap: "5px", justifyContent: "center",flexDirection:"column" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        color={(theme) => theme.palette.success.light}
+      >
+        <Box sx={{ fontSize: "3rem", lineHeight: 1, fontWeight: 500 }}>
           {gainedValue}
         </Box>
-        <Box fontSize={"0.8rem"} color={"#555"}>
+        <Box
+          sx={{ width: "100%", textAlign: "end" }}
+          fontSize={"0.8rem"}
+          color={"#555"}
+        >
           {gainedTitle}
         </Box>
       </Box>
-      <Box flex={1}>
+      <Divider orientation="horizontal" flexItem />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Box
-          sx={{ fontSize: "2rem", lineHeight: 1, fontWeight: 700 }}
+          sx={{ fontSize: "1.5rem", lineHeight: 1, fontWeight: 500 }}
           color={(theme) => theme.palette.error.light}
         >
           {lostValue}
         </Box>
-        <Box fontSize={"0.8rem"} color={"#555"}>
+        <Box
+          sx={{ width: "100%", textAlign: "end" }}
+          fontSize={"0.8rem"}
+          color={"#555"}
+        >
           {lostTitle}
         </Box>
       </Box>
@@ -70,7 +94,7 @@ const DashboardTile = ({
   return (
     <Tile
       Icon={Icon}
-      title={title}
+      // title={title}
       styles={{
         bodyStyles: {
           display: "flex",
@@ -88,14 +112,14 @@ const DashboardTile = ({
         gainedTitle={"Gained"}
         title={"Revenue"}
       />
-      <Divider orientation="vertical" flexItem />
+      {/* <Divider orientation="vertical" flexItem />
       <TileScetion
         lostValue={lostCustomers}
         gainedValue={gainedCustomers}
         lostTitle={"Lost"}
         gainedTitle={"Served"}
         title={"Customers"}
-      />
+      /> */}
     </Tile>
   );
 };
