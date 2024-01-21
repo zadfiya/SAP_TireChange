@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const MasterTable = require("./Master");
-const Vehicle = require("./Vehicle");
+const MasterTable = require("./masterTable");
 const {vehicleChargeById} = require("../helper/helper")
 const BookingSchema = new mongoose.Schema(
     {
@@ -10,11 +9,11 @@ const BookingSchema = new mongoose.Schema(
             unique:[true,"Date Must be Unique"]
         },
         data:{
-            totalReveneue:{
+            totalRevenue:{
                 type:Number,
                 default:0
             },
-            totalTurnedaway:{
+            totalTurnedAway:{
                 type:Number,
                 default:0
             },
@@ -33,7 +32,6 @@ const BookingSchema = new mongoose.Schema(
                         type:Date
                     },
                     bay:{
-                        require:true,
                         type:Number,
                     },
                     startTime:{
@@ -61,7 +59,7 @@ const BookingSchema = new mongoose.Schema(
                         type:mongoose.Schema.Types.ObjectId,
                         ref:"Vehicle"
                     },
-                    totalReveneue:{
+                    totalRevenue:{
                         type:Number,
                         default:0
                     },
@@ -73,7 +71,7 @@ const BookingSchema = new mongoose.Schema(
                         type:Number,
                         default:0 
                     },
-                    totalTurnedaway:{
+                    totalTurnedAway:{
                         type:Number,
                         default:0
                     }
@@ -88,10 +86,14 @@ const BookingSchema = new mongoose.Schema(
     }
 )
 
-BookingSchema.pre('save', function (next) {
-    
+BookingSchema.pre('save', async function (next) {
+    const booking = this
+    // console.log(this, this.totalTurnedAway, this.totalRevenue);
     const formattedDate = this.date.split(' ')[0]; // Get the date in 'yyyy-mm-dd' format
-    this.date = formattedDate;
+    booking.date = formattedDate;
+
+    
+    
     next();
 });
 
@@ -121,48 +123,90 @@ BookingSchema.pre('save', function (next) {
 //     next();
 // });
 
-BookingSchema.methods.bookingSave = async function (bookObj,next)
+
+BookingSchema.post("save",async function (next)
 {
     const booking = this
-    
     await booking.populate([{path:'data.vehicleWise.vehicleid',select:"name charge"}]);
-    if(bookObj.status =="TurnedAway")
-    {
-        booking.data.totalTurnedaway += vehicleChargeById(bookObj.vehicleType)
-        booking.data.turnedAwayCustomers +=1
-    }
-    else
-    {
-        booking.data.totalReveneue +=vehicleChargeById(bookObj.vehicleType)
-        booking.data.acceptedCustomers +=1
-    }
-    booking.data.vehicleWise.forEach(element => {
-        if(element.vehicleid._id ==bookObj.vehicleType)
-        {
-            if(bookObj.status =="TurnedAway")
-            {
-              element.totalTurnedaway+= element.vehicleid.charge
-              element.turnedAwayCustomers+= 1
-            }
-            else
-            {
-                element.totalReveneue+= element.vehicleid.charge
-                element.acceptedCustomers+= 1
-            }
-        }
-    });
-    await booking.save()
-        let masterTableObj = await MasterTable.findOne({})
-    if(!masterTableObj)
-    {
-        const objToSave = {}
-        let vehicleWiseIds=["65ac38201345cb2eea7dd1c1","65ac382f1345cb2eea7dd1c4","65ac38341345cb2eea7dd1c6","65ac38651345cb2eea7dd1c8","65ac38701345cb2eea7dd1ca"]
+    let masterTableObj = await MasterTable.findById("65ad1b05d989a7203c8d9f57")
+    await masterTableObj.updateTable(booking.data.vehicleWise)
     
-        objToSave.vehicleWise=vehicleWiseIds.map(id=> ({id:new mongoose.Types.ObjectId(id)}))
-        masterTableObj = await MasterTable.create(objToSave)
-    }   
-    await masterTableObj.updateTable(bookObj,next)
-}
+})
+
+// BookingSchema.methods.bookingSave = async function (bookObjs)
+// {
+//     const booking = this
+    
+//     await booking.populate([{path:'data.vehicleWise.vehicleid',select:"name charge"}]);
+//     for(let bookObj of bookObjs)
+//     {
+//         if(bookObj.status =="TurnedAway")
+//         {
+//             booking.data.totalTurnedaway += vehicleChargeById(bookObj.vehicleType)
+//             booking.data.turnedAwayCustomers +=1
+//         }
+//         else
+//         {
+//             booking.data.totalReveneue +=vehicleChargeById(bookObj.vehicleType)
+//             booking.data.acceptedCustomers +=1
+//         }
+//     }
+//     await booking.save()
+//         let masterTableObj = await MasterTable.findOne({})
+//     if(!masterTableObj)
+//     {
+//         const objToSave = {}
+//         let vehicleWiseIds=["65ac38201345cb2eea7dd1c1","65ac382f1345cb2eea7dd1c4","65ac38341345cb2eea7dd1c6","65ac38651345cb2eea7dd1c8","65ac38701345cb2eea7dd1ca"]
+    
+//         objToSave.vehicleWise=vehicleWiseIds.map(id=> ({id:new mongoose.Types.ObjectId(id)}))
+//         masterTableObj = await MasterTable.create(objToSave)
+//     }
+//     //await masterTableObj.updateTable(bookObj)   
+    
+// }
+
+// BookingSchema.methods.bookingSave2 = async function (bookObjs)
+// {
+//     const booking = this
+    
+//     await booking.populate([{path:'data.vehicleWise.vehicleid',select:"name charge"}]);
+//     if(bookObj.status =="TurnedAway")
+//     {
+//         booking.data.totalTurnedaway += vehicleChargeById(bookObj.vehicleType)
+//         booking.data.turnedAwayCustomers +=1
+//     }
+//     else
+//     {
+//         booking.data.totalReveneue +=vehicleChargeById(bookObj.vehicleType)
+//         booking.data.acceptedCustomers +=1
+//     }
+//     booking.data.vehicleWise.forEach(element => {
+//         if(element.vehicleid._id ==bookObj.vehicleType)
+//         {
+//             if(bookObj.status =="TurnedAway")
+//             {
+//               element.totalTurnedaway+= element.vehicleid.charge
+//               element.turnedAwayCustomers+= 1
+//             }
+//             else
+//             {
+//                 element.totalReveneue+= element.vehicleid.charge
+//                 element.acceptedCustomers+= 1
+//             }
+//         }
+//     });
+//     await booking.save()
+//         let masterTableObj = await MasterTable.findOne({})
+//     if(!masterTableObj)
+//     {
+//         const objToSave = {}
+//         let vehicleWiseIds=["65ac38201345cb2eea7dd1c1","65ac382f1345cb2eea7dd1c4","65ac38341345cb2eea7dd1c6","65ac38651345cb2eea7dd1c8","65ac38701345cb2eea7dd1ca"]
+    
+//         objToSave.vehicleWise=vehicleWiseIds.map(id=> ({id:new mongoose.Types.ObjectId(id)}))
+//         masterTableObj = await MasterTable.create(objToSave)
+//     }   
+//     await masterTableObj.updateTable(bookObj)
+// }
 
 // BookingSchema.post('save', async function (next) {
 //     const booking = this;
@@ -179,6 +223,5 @@ BookingSchema.methods.bookingSave = async function (bookObj,next)
 //     await masterTableObj.updateTable({})
 //   });
 
-  
 
 module.exports = mongoose.model("Bookings", BookingSchema);
