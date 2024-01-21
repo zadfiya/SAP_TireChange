@@ -54,6 +54,31 @@ const BookingSchema = new mongoose.Schema(
                         enum: ["Booked", "Serviced","TurnedAway"],
                     }
                 }
+            ],
+            vehicleWise:[
+                {
+                    vehicleid:{
+                        type:mongoose.Schema.Types.ObjectId,
+                        ref:"Vehicle"
+                    },
+                    totalReveneue:{
+                        type:Number,
+                        default:0
+                    },
+                    acceptedCustomers:{
+                        type:Number,
+                        default:0
+                    },
+                    turnedAwayCustomers:{
+                        type:Number,
+                        default:0 
+                    },
+                    totalTurnedaway:{
+                        type:Number,
+                        default:0
+                    }
+                    
+                }
             ]
         }
 
@@ -100,8 +125,7 @@ BookingSchema.methods.bookingSave = async function (bookObj,next)
 {
     const booking = this
     
-    await booking.populate([{path:'data.Bookings.vehicleType',select:"charge"}]);
-    const {vehicleType} = bookObj.vehicleType
+    await booking.populate([{path:'data.vehicleWise.vehicleid',select:"name charge"}]);
     if(bookObj.status =="TurnedAway")
     {
         booking.data.totalTurnedaway += vehicleChargeById(bookObj.vehicleType)
@@ -111,8 +135,22 @@ BookingSchema.methods.bookingSave = async function (bookObj,next)
     {
         booking.data.totalReveneue +=vehicleChargeById(bookObj.vehicleType)
         booking.data.acceptedCustomers +=1
-
     }
+    booking.data.vehicleWise.forEach(element => {
+        if(element.vehicleid._id ==bookObj.vehicleType)
+        {
+            if(bookObj.status =="TurnedAway")
+            {
+              element.totalTurnedaway+= element.vehicleid.charge
+              element.turnedAwayCustomers+= 1
+            }
+            else
+            {
+                element.totalReveneue+= element.vehicleid.charge
+                element.acceptedCustomers+= 1
+            }
+        }
+    });
     await booking.save()
         let masterTableObj = await MasterTable.findOne({})
     if(!masterTableObj)

@@ -15,6 +15,14 @@ const carRevenueMap = {
     "class 2 truck": 700
 }
 
+const bay = {
+    "compact": 1,
+    "medium": 2,
+    "full-size": 3,
+    "class 1 truck": 4,
+    "class 2 truck": 5
+}
+
 const bayLength = 5;
 
 function parseDateString(dateString) {
@@ -55,8 +63,8 @@ const ProcessCSV = (dataFile) => {
     for(date of Object.keys(bookingData)) {
         let x = [];
         let slots = {
-            totalRevenue: 0,
-            totalTurnedAwayRevenue: 0,
+            // totalRevenue: 0,
+            // totalTurnedAwayRevenue: 0,
             turnedAwaySlots: [],
             dedicated: {
                 "compact": [],
@@ -94,14 +102,15 @@ const ProcessCSV = (dataFile) => {
                 // console.log(booking.startTime , openingHour , booking.endTime , closingHour);
                 booking["status"] = "TurnedAway"
                 slots.turnedAwaySlots.push(booking);
-                slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType]
+                // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType]
                 continue;
             }
 
             if (dedicatedSlot.length == 0 || dedicatedSlot[dedicatedSlot.length - 1].endTime < booking.startTime) {
                 // Add to dedicated Slot
                 booking["status"] = "Serviced";
-                slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                booking["bay"] = bay[booking.vehicleType];
+                // slots.totalRevenue += carRevenueMap[booking.vehicleType];
                 dedicatedSlot.push(booking);
             }
             else {
@@ -112,7 +121,8 @@ const ProcessCSV = (dataFile) => {
                         // Add to dedicated Slot
 
                         booking["status"] = "Serviced";
-                        slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                        booking["bay"] = (i + 1 + bayLength);
+                        // slots.totalRevenue += carRevenueMap[booking.vehicleType];
                         regularSlot[i].push(booking);
                         isBooked = true;
                         break;
@@ -122,7 +132,7 @@ const ProcessCSV = (dataFile) => {
                 if(!isBooked) {
                     booking["status"] = "TurnedAway";
                     slots.turnedAwaySlots.push(booking);
-                    slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType];
+                    // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType];
                 }
             }
         }
