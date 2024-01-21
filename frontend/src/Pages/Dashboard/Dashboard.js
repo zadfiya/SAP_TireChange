@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Tile from "../../ui/Tile/Tile";
-import MediumCarImg from "../../resources/images/compact-car.png";
-import CompactCarImg from "../../resources/images/car.png";
-import class1CarImg from "../../resources/images/container-truck.png";
-import fullSizeCarImg from "../../resources/images/sedan.png";
-import class2CarImg from "../../resources/images/truck.png";
+// import MediumCarImg from "../../resources/images/compact-car.png";
+// import CompactCarImg from "../../resources/images/car.png";
+// import class1CarImg from "../../resources/images/container-truck.png";
+// import fullSizeCarImg from "../../resources/images/sedan.png";
+// import class2CarImg from "../../resources/images/truck.png";
+import MediumCarImg from "../../resources/images/medium.png";
+import CompactCarImg from "../../resources/images/compact.png";
+import class1CarImg from "../../resources/images/class-1-truck.png";
+import fullSizeCarImg from "../../resources/images/full-size.png";
+import class2CarImg from "../../resources/images/class-2-truck.png";
+import lostRevImg from "../../resources/images/lost-rev.png";
+import revImg from "../../resources/images/revenue-icon.jpg";
 
 // import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -93,7 +100,7 @@ const Dashboard = () => {
           <Tile
             isLoading={loading}
             // title={"Total Revenue"}
-            Icon={<styles.Img src={class2CarImg} />}
+            Icon={<styles.Img src={revImg} />}
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -104,6 +111,7 @@ const Dashboard = () => {
               titleContainerStyles: {
                 justifyContent: "left",
                 flex: 1,
+                height: "100px",
               },
             }}
           >
@@ -113,7 +121,7 @@ const Dashboard = () => {
               fontWeight={600}
               textAlign={"right"}
             >
-              {dollar(dashboardData?.totalReveneue)}
+              {dashboardData ? dollar(dashboardData?.totalRevenue) : "-"}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Gained Revenue
@@ -122,7 +130,9 @@ const Dashboard = () => {
           <Tile
             isLoading={loading}
             // title={"Total Revenue"}
-            Icon={<styles.Img src={class2CarImg} />}
+            Icon={
+              <styles.Img src={lostRevImg} sx={{ filter: "grayscale(1)" }} />
+            }
             styles={{
               rootStyles: {
                 flexDirection: "row",
@@ -133,6 +143,7 @@ const Dashboard = () => {
               titleContainerStyles: {
                 justifyContent: "left",
                 flex: 1,
+                height: "100px",
               },
               titleStyles: {},
             }}
@@ -143,7 +154,7 @@ const Dashboard = () => {
               fontWeight={600}
               textAlign={"right"}
             >
-              {dollar(dashboardData?.totalTurnedaway)}
+              {dashboardData ? dollar(dashboardData?.totalTurnedAway) : "-"}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Lost Revenue
@@ -156,19 +167,29 @@ const Dashboard = () => {
                 isLoading={loading}
                 title={item.title}
                 Icon={item.Icon}
-                revenue={dollar(
-                  dashboardData?.vehicleWise?.[index]?.totalReveneue
-                )}
-                lostRevenue={dollar(
-                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway
-                )}
+                revenue={
+                  dashboardData
+                    ? dollar(dashboardData?.vehicleWise?.[index]?.totalRevenue)
+                    : "-"
+                }
+                lostRevenue={
+                  dashboardData
+                    ? dollar(
+                        dashboardData?.vehicleWise?.[index]?.totalTurnedAway
+                      )
+                    : "-"
+                }
                 gainedCustomers={
-                  dashboardData?.vehicleWise?.[index]?.totalReveneue /
-                  dashboardData?.vehicleWise?.[index]?.id?.charge
+                  dashboardData
+                    ? dashboardData?.vehicleWise?.[index]?.totalRevenue /
+                      dashboardData?.vehicleWise?.[index]?.id?.charge
+                    : "-"
                 }
                 lostCustomers={
-                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway /
-                  dashboardData?.vehicleWise?.[index]?.id?.charge
+                  dashboardData
+                    ? dashboardData?.vehicleWise?.[index]?.totalTurnedAway /
+                      dashboardData?.vehicleWise?.[index]?.id?.charge
+                    : "-"
                 }
                 // revenue={item.revenue}
               />

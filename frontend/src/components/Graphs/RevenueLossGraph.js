@@ -17,7 +17,7 @@ export const getData = (data, isGainedRevenue) => ({
     {
       label: isGainedRevenue ? "Gained Revenue" : "Lost Revenue",
       data: data.map((d) =>
-        isGainedRevenue ? d.totalReveneue : d.totalTurnedaway
+        isGainedRevenue ? d.totalRevenue : d.totalTurnedAway
       ),
       backgroundColor: [
         "rgba(255, 99, 132, 0.5)",
@@ -43,6 +43,7 @@ export const getData = (data, isGainedRevenue) => ({
 const RevenueLossGraph = ({ data, isGainedRevenue = true, title }) => {
   return (
     <Box component={Paper} flex={1} padding={"20px"}>
+      <Box textAlign={"center"}>{title}</Box>
       <Pie width={"100%"} data={getData(data, isGainedRevenue)} />
     </Box>
   );

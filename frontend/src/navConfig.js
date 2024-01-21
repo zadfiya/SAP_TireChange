@@ -8,8 +8,8 @@ export const navConfig = [
     icon: <DashboardOutlinedIcon />,
   },
   {
-    title: "Tables",
-    path: "/tables",
+    title: "Stats",
+    path: "/stats",
     icon: <BackupTableOutlinedIcon />,
   },
 ];
