@@ -7,7 +7,10 @@ import Scheduler, {
 import "react-big-scheduler-stch/lib/css/style.css";
 import dayjs from "dayjs";
 import { useLayoutEffect, useState } from "react";
-import { getBookingDataForDate } from "../../apis/apis";
+import {
+  getBookingDataForDate,
+  submitBookingDataForDate,
+} from "../../apis/apis";
 import { parseDateString } from "../../utils/utils";
 import { Box } from "@mui/system";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -146,6 +149,13 @@ const Bookings = () => {
     });
   }, [datee]);
 
+  const handleSubmit = (data) => {
+    return submitBookingDataForDate({
+      carType: data,
+      date: datee.toISOString(),
+    });
+  };
+
   return (
     // <DndProvider backend={HTML5Backend}>
     <Box>
@@ -187,7 +197,11 @@ const Bookings = () => {
 
         // eventItemClick={this.eventClicked}
       />
-      <CustomDialog open={open} handleClose={handleClose} />
+      <CustomDialog
+        open={open}
+        handleClose={handleClose}
+        handleSubmit={handleSubmit}
+      />
     </Box>
     // </DndProvider>
   );

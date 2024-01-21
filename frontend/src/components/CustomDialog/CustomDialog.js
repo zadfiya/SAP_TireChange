@@ -99,7 +99,7 @@ const carOptions = [
   },
 ];
 
-const CustomDialog = ({ open, handleClose }) => {
+const CustomDialog = ({ open, handleClose, handleSubmit }) => {
   const [carType, setCarType] = React.useState(null);
   const [status, setStatus] = React.useState("");
 
@@ -169,6 +169,13 @@ const CustomDialog = ({ open, handleClose }) => {
               disabled={!carType}
               onClick={() => {
                 setStatus(0);
+                handleSubmit(carType)
+                  .then((res) => {
+                    setStatus(res);
+                  })
+                  .catch((err) => {
+                    setStatus(2);
+                  });
               }}
             >
               Check for slot

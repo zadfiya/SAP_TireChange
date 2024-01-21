@@ -24,3 +24,12 @@ export const getBookingDataForDate = (date) => {
     })
     .then((response) => response.data);
 };
+export const submitBookingDataForDate = (date) => {
+  return axios
+    .get(BOOKING_URL + date, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.data);
+};
