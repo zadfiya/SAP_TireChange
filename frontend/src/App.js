@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Suspense } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import "./App.css";
+import { Routes } from "./Route";
+import DayScheduler from "./components/DayScheduler/DayScheduler";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { HelmetProvider } from "react-helmet-async";
 
+const materialTheme = createTheme(/* your theme */);
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={materialTheme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <HelmetProvider context={{}}>
+        <Router>
+          <Suspense>
+            <Routes />
+            {/* <DayScheduler /> */}
+          </Suspense>
+        </Router>
+        </HelmetProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 }
 
