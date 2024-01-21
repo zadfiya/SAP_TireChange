@@ -13,10 +13,10 @@ export function Routes() {
         }}
       >
         <Nav openNav={true} onCloseNav={() => {}} />
-        <div style={{ flex: 1 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
           {" "}
           <BasePage />
-        </div>
+        </Box>
       </Box>
     </>
   );

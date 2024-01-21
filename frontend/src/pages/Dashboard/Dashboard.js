@@ -14,9 +14,11 @@ import DashboardTile from "./components/DashboardTile/DashboardTile";
 import { Box, Chip } from "@mui/material";
 
 import { useTheme } from "@mui/material/styles";
+
 // import Graphs from "../../components/Graphs/Graphs";
 import Page from "../Page";
 import { getDashboardData } from "../../apis/apis";
+import { dollar } from "../../utils/utils";
 const data = [
   {
     title: "Compact Cars",
@@ -65,26 +67,31 @@ const data = [
 ];
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    getDashboardData().then((res) => {
-      console.log(res);
-      setDashboardData(res.data);
-      setLoading(false);
-    });
+    getDashboardData()
+      .then((res) => {
+        console.log(res);
+        setDashboardData(res.data);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      });
   }, []);
 
   const theme = useTheme();
-  const isToday = true;
 
   return (
     <Page title={"Dashboard"}>
       <styles.Container>
         <styles.TilesContainer>
           <Tile
+            isLoading={loading}
             // title={"Total Revenue"}
             Icon={<styles.Img src={class2CarImg} />}
             styles={{
@@ -104,14 +111,16 @@ const Dashboard = () => {
               color={theme.palette.success.light}
               fontSize={"3rem"}
               fontWeight={600}
+              textAlign={"right"}
             >
-              {dashboardData?.totalReveneue}
+              {dollar(dashboardData?.totalReveneue)}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Gained Revenue
             </Box>
           </Tile>
           <Tile
+            isLoading={loading}
             // title={"Total Revenue"}
             Icon={<styles.Img src={class2CarImg} />}
             styles={{
@@ -125,14 +134,16 @@ const Dashboard = () => {
                 justifyContent: "left",
                 flex: 1,
               },
+              titleStyles: {},
             }}
           >
             <Box
               color={theme.palette.error.light}
               fontSize={"3rem"}
               fontWeight={600}
+              textAlign={"right"}
             >
-              {dashboardData?.totalTurnedaway}
+              {dollar(dashboardData?.totalTurnedaway)}
             </Box>
             <Box fontSize={"0.8rem"} textAlign={"right"}>
               Total Lost Revenue
@@ -145,12 +156,20 @@ const Dashboard = () => {
                 isLoading={loading}
                 title={item.title}
                 Icon={item.Icon}
-                revenue={dashboardData?.vehicleWise?.[index]?.totalReveneue}
-                lostRevenue={
+                revenue={dollar(
+                  dashboardData?.vehicleWise?.[index]?.totalReveneue
+                )}
+                lostRevenue={dollar(
                   dashboardData?.vehicleWise?.[index]?.totalTurnedaway
+                )}
+                gainedCustomers={
+                  dashboardData?.vehicleWise?.[index]?.totalReveneue /
+                  dashboardData?.vehicleWise?.[index]?.id?.charge
                 }
-                gainedCustomers={item.gainedCustomers}
-                lostCustomers={item.lostCustomers}
+                lostCustomers={
+                  dashboardData?.vehicleWise?.[index]?.totalTurnedaway /
+                  dashboardData?.vehicleWise?.[index]?.id?.charge
+                }
                 // revenue={item.revenue}
               />
             );

@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
 import RevenueLossGraph from "./RevenueLossGraph";
 import CustomerGraph from "./CustomerGraph";
+import { getBookingDataForDate } from "../../apis/apis";
 
-const Graphs = () => {
+const Graphs = ({ date }) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    if (date)
+      getBookingDataForDate(date?.toISOString()).then((data) => {
+        console.log(data);
+        setData(data?.message?.data);
+      });
+  }, [date]);
+
   return (
     <Box
       marginTop={"20px"}
@@ -14,9 +25,12 @@ const Graphs = () => {
       gap={"20px"}
       sx={{ "& > div:nth-child(3)": { gridColumn: "span 2" } }}
     >
-      <RevenueLossGraph />
-      <RevenueLossGraph />
-      <CustomerGraph />
+      <RevenueLossGraph data={data?.vehicleWise || []} />
+      <RevenueLossGraph
+        data={data?.vehicleWise || []}
+        isGainedRevenue={false}
+      />
+      <CustomerGraph data={data?.vehicleWise || []} />
     </Box>
   );
 };
