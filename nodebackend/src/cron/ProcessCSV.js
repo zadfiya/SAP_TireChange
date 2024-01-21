@@ -218,7 +218,7 @@ const ProcessCSV = (dataFile) => {
         //     console.log(date, " +++ ", bookingData[date].length," +++ ", slots.totalRevenue, " +++ ",slots.totalTurnedAwayRevenue, "  +++  ", total)
         //     console.log(slots.regular[3].reduce((a, b) => a + carRevenueMap[b.vehicleType], 0));
         // }
-        // finalTotalProfit += slots.totalRevenue;
+        // finalTotalProfit += slots.totalRevenue;  
         // finalTotalLostt += slots.totalTurnedAwayRevenue;
         for (let key of Object.keys(vehiclesData)) {
             dbData.data.vehicleWise.push({vehicleid: idMap[key], ...vehiclesData[key]})

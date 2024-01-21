@@ -25,10 +25,11 @@ const Graphs = ({ date }) => {
       gap={"20px"}
       sx={{ "& > div:nth-child(3)": { gridColumn: "span 2" } }}
     >
-      <RevenueLossGraph data={data?.vehicleWise || []} />
+      <RevenueLossGraph data={data?.vehicleWise || []} title="Revenue Loss" />
       <RevenueLossGraph
         data={data?.vehicleWise || []}
         isGainedRevenue={false}
+        title="Revenue Gained"
       />
       <CustomerGraph data={data?.vehicleWise || []} />
     </Box>

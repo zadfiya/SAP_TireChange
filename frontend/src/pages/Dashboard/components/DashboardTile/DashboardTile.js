@@ -18,7 +18,7 @@ const TileScetion = ({
       flexDirection: "column",
       textAlign: "left",
       flex: 1,
-      backgroundColor: "#efefef",
+      backgroundColor: "#f4f4f4",
       borderRadius: "10px",
       padding: "10px",
       gap: "5px",
@@ -78,7 +78,11 @@ const DashboardTile = ({
           width: "100%",
           flex: 1,
           flexDirection: "column",
+
           gap: "5px",
+        },
+        titleContainerStyles: {
+          justifyContent: "space-between",
         },
       }}
     >

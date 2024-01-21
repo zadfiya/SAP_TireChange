@@ -22,7 +22,7 @@ export const customRoutes = [
   },
   {
     path: "/",
-    Component: DashboardPage,
+    Component: BookingsPage,
     isActive: true,
   },
   {
@@ -33,7 +33,7 @@ export const customRoutes = [
   {
     path: "/stats/*",
     Component: StatsPage,
-    isActive: false,
+    isActive: true,
   },
   // {
   //   path: "/404/*",

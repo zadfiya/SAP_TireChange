@@ -25,11 +25,13 @@ const Tile = ({
         flexDirection: "column",
         gap: "5px",
         alignItems: "center",
-        padding: "5px",
+        padding: "8px",
         height: isLoading ? "200px" : "auto",
         // gap: "10px",
         backgroundColor: "#fff",
-
+        borderRadius: "10px",
+        boxShadow:
+          "0px 1px 2px rgba(0, 0, 0, 0.1), 0px 5px 15px rgba(0, 0, 0, 0.05), 0px 0px 15px rgba(0, 0, 0, 0.05)",
         ...rootStyles,
         // cursor: onClickCard ? "pointer" : "initial",
         // "&:hover": {
@@ -47,7 +49,7 @@ const Tile = ({
           alignItems: "center",
           justifyContent: "center",
           gap: "10px",
-          height: "55px",
+          height: "75px",
           ...titleContainerStyles,
           // backgroundColor: textColor,
           // color: theme.palette.getContrastText(textColor),
