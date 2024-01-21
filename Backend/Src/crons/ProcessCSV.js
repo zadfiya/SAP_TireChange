@@ -23,6 +23,14 @@ const bay = {
     "class 2 truck": 5
 }
 
+const idMap = {
+    "compact": 1,
+    "medium": 2,
+    "full-size": 3,
+    "class 1 truck": 4,
+    "class 2 truck": 5
+}
+
 const bayLength = 5;
 
 function parseDateString(dateString) {
@@ -61,11 +69,16 @@ const ProcessCSV = (dataFile) => {
     });
 
     for(date of Object.keys(bookingData)) {
-        let x = [];
+        let dbData = {
+            "date": date,
+            "totalRevenue": 0,
+            "totalTurnedAway": 0,
+            "acceptedCusomters": 0,
+            "turnedAwayCustomers": 0,
+            "Bookings": []
+        }
+
         let slots = {
-            // totalRevenue: 0,
-            // totalTurnedAwayRevenue: 0,
-            turnedAwaySlots: [],
             dedicated: {
                 "compact": [],
                 "medium": [],
@@ -102,7 +115,9 @@ const ProcessCSV = (dataFile) => {
                 // console.log(booking.startTime , openingHour , booking.endTime , closingHour);
                 booking["status"] = "TurnedAway"
                 slots.turnedAwaySlots.push(booking);
-                // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType]
+                dbData.Bookings.push(booking);
+                dbData.totalTurnedAway += carRevenueMap[booking.vehicleType]
+                dbData.turnedAwayCustomers += 1
                 continue;
             }
 
@@ -110,8 +125,10 @@ const ProcessCSV = (dataFile) => {
                 // Add to dedicated Slot
                 booking["status"] = "Serviced";
                 booking["bay"] = bay[booking.vehicleType];
-                // slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                dbData.totalRevenue += carRevenueMap[booking.vehicleType]
+                dbData.acceptedCusomters += 1
                 dedicatedSlot.push(booking);
+                dbData.Bookings.push(booking);
             }
             else {
                 // Check for Slot in regular Slot
@@ -122,8 +139,10 @@ const ProcessCSV = (dataFile) => {
 
                         booking["status"] = "Serviced";
                         booking["bay"] = (i + 1 + bayLength);
-                        // slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                        dbData.totalRevenue += carRevenueMap[booking.vehicleType]
+                        dbData.acceptedCusomters += 1
                         regularSlot[i].push(booking);
+                        dbData.Bookings.push(booking);
                         isBooked = true;
                         break;
                     }
@@ -132,7 +151,9 @@ const ProcessCSV = (dataFile) => {
                 if(!isBooked) {
                     booking["status"] = "TurnedAway";
                     slots.turnedAwaySlots.push(booking);
-                    // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType];
+                    dbData.Bookings.push(booking);
+                    dbData.totalTurnedAway += carRevenueMap[booking.vehicleType]
+                    dbData.turnedAwayCustomers += 1
                 }
             }
         }
@@ -147,8 +168,8 @@ const ProcessCSV = (dataFile) => {
         // }
         // finalTotalProfit += slots.totalRevenue;
         // finalTotalLostt += slots.totalTurnedAwayRevenue;
+        console.log(dbData);
     }
-    // console.log(finalTotalProfit, finalTotalLostt);
 }
 
 module.exports = ProcessCSV
