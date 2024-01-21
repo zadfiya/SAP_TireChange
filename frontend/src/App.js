@@ -7,8 +7,9 @@ import DayScheduler from "./components/DayScheduler/DayScheduler";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 // import { HelmetProvider } from "react-helmet-async";
+import { enUS } from "@mui/material/locale";
 
-const materialTheme = createTheme();
+const materialTheme = createTheme({}, enUS);
 function App() {
   return (
     <ThemeProvider theme={materialTheme}>

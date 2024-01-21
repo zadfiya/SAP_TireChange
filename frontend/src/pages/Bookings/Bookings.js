@@ -11,6 +11,11 @@ import { getBookingDataForDate } from "../../apis/apis";
 import { parseDateString } from "../../utils/utils";
 import { Box } from "@mui/system";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { Button } from "@mui/material";
+// import { Button } from "@mui";
+import CustomDialog from "./../../components/CustomDialog/CustomDialog";
+
+// dayjs.locale("en");
 
 const idMap = {
   "65ac38201345cb2eea7dd1c1": {
@@ -47,7 +52,7 @@ schedulerData.config.creatable = false;
 schedulerData.config.endResizable = false;
 schedulerData.config.movable = false;
 
-schedulerData.setSchedulerLocale("en");
+// schedulerData.setSchedulerLocale("en");
 
 schedulerData.setResources(
   Array(10)
@@ -104,20 +109,33 @@ const eventItemPopoverTemplateResolver = (
 const Bookings = () => {
   const [datee, setDate] = useState(dayjs("2022-11-26T10:20:00.000Z"));
 
-  // useEffect(() => {
-  //   // schedulerData.setEvents(getDataFormat(ddd?.message?.data?.Bookings || []));
-  //   getBookingDataForDate(date).then((data) => {
-  //     console.log(data);
-  //     schedulerData.setEvents(
-  //       getDataFormat(ddd?.message?.data?.Bookings || [])
-  //     );
-  //   });
-  // }, [date]);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    // schedulerData.setEvents(getDataFormat(ddd?.message?.data?.Bookings || []));
+    getBookingDataForDate(datee).then((data) => {
+      console.log(data);
+      schedulerData.setEvents(
+        getDataFormat(ddd?.message?.data?.Bookings || [])
+      );
+    });
+  }, [datee]);
 
   return (
     // <DndProvider backend={HTML5Backend}>
     <Box>
-      <div>
+      <Box
+        sx={{
+          padding: "10px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+        }}
+      >
         <DatePicker
           sx={{ marginTop: "30px" }}
           label="Select Date"
@@ -127,7 +145,15 @@ const Bookings = () => {
           }}
           // renderInput={(params) => <Box {...params} />}
         />
-      </div>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          Schedule an Booking
+        </Button>
+      </Box>
 
       <Scheduler
         schedulerData={schedulerData}
@@ -136,8 +162,10 @@ const Bookings = () => {
         nextClick={() => {}}
         onSelectDate={() => {}}
         onViewChange={() => {}}
+
         // eventItemClick={this.eventClicked}
       />
+      <CustomDialog open={open} handleClose={handleClose} />
     </Box>
     // </DndProvider>
   );

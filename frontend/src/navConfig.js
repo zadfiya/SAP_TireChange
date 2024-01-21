@@ -5,11 +5,16 @@ export const navConfig = [
   {
     title: "Dashboard",
     path: "/",
-    icon: <DashboardOutlinedIcon />,
+    // icon: <DashboardOutlinedIcon />,
   },
   {
     title: "Stats",
     path: "/stats",
-    icon: <BackupTableOutlinedIcon />,
+    // icon: <BackupTableOutlinedIcon />,
+  },
+  {
+    title: "Bookings",
+    path: "/bookings",
+    // icon: <BackupTableOutlinedIcon />,
   },
 ];

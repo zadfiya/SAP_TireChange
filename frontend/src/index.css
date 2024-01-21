@@ -32,3 +32,9 @@ code {
 .event-item {
   font-size: 0.7rem !important;
 }
+
+.resource-table td,
+.event-container,
+.scheduler-bg-table tr {
+  height: 50px !important;
+}

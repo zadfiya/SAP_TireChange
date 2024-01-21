@@ -1,16 +1,31 @@
-import * as React from "react";
+import { IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { IconButton, TextField } from "@mui/material";
+import * as React from "react";
+import class1CarImg from "../../resources/images/class-1-truck.png";
+import class2CarImg from "../../resources/images/class-2-truck.png";
+import CompactCarImg from "../../resources/images/compact.png";
+import fullSizeCarImg from "../../resources/images/full-size.png";
+import MediumCarImg from "../../resources/images/medium.png";
 
-import CloseIcon from '@mui/icons-material/Close';
+import styled from "@emotion/styled";
+import CloseIcon from "@mui/icons-material/Close";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const Img = styled("img")({
+  height: "100%",
+  width: "auto",
+  // backgroundColor: "#efefef",
+  borderRadius: "10px",
+  padding: "5px",
+  boxSizing: "border-box",
+  // objectFit: "contain",
 });
 
 const styles = {
@@ -54,30 +69,35 @@ const carOptions = [
     label: "Compact",
     value: "compact",
     color: "#ef9a9a",
+    Icon: <Img src={CompactCarImg} />,
   },
   {
     label: "Medium",
     value: "medium",
     color: "#ce93d8",
+    Icon: <Img src={MediumCarImg} />,
   },
   {
     label: "Full Size",
     value: "fullSize",
     color: "#90caf9",
+    Icon: <Img src={fullSizeCarImg} />,
   },
   {
     label: "Class 1",
     value: "class1",
     color: "#80cbc4",
+    Icon: <Img src={class1CarImg} />,
   },
   {
     label: "Class 2",
     value: "class2",
     color: "#a5d6a7",
+    Icon: <Img src={class2CarImg} />,
   },
 ];
 
-const CustomDialog = ({ open, handleClose, handleButton }) => {
+const CustomDialog = ({ open, handleClose }) => {
   const [carType, setCarType] = React.useState(null);
   const [status, setStatus] = React.useState(null);
 
@@ -88,21 +108,20 @@ const CustomDialog = ({ open, handleClose, handleButton }) => {
       keepMounted
       onClose={handleClose}
       aria-describedby="booking-dialog"
-      
     >
       <DialogTitle sx={{ fontWeight: "900" }}>{"Schedule Service"}</DialogTitle>
       <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
 
       <DialogContent>
         <DialogContentText id="booking-dialog">
@@ -124,6 +143,7 @@ const CustomDialog = ({ open, handleClose, handleButton }) => {
                   setCarType(item.value);
                 }}
               >
+                {item.Icon}
                 {item.label}
               </div>
             ))}

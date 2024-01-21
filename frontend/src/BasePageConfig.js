@@ -16,19 +16,19 @@ const StatsPage = lazy(() =>
 
 export const customRoutes = [
   {
-    path: "/dashboard/*",
+    path: "/",
     Component: DashboardPage,
-    isActive: false,
+    isActive: true,
   },
   {
-    path: "/",
-    Component: BookingsPage,
+    path: "/dashboard/*",
+    Component: DashboardPage,
     isActive: true,
   },
   {
     path: "/bookings/*",
     Component: BookingsPage,
-    isActive: false,
+    isActive: true,
   },
   {
     path: "/stats/*",
