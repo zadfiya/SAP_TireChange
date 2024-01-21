@@ -6,21 +6,21 @@ import { Routes } from "./Route";
 import DayScheduler from "./components/DayScheduler/DayScheduler";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { HelmetProvider } from "react-helmet-async";
+// import { HelmetProvider } from "react-helmet-async";
 
-const materialTheme = createTheme(/* your theme */);
+const materialTheme = createTheme();
 function App() {
   return (
     <ThemeProvider theme={materialTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <HelmetProvider context={{}}>
+        {/* <HelmetProvider context={{}}> */}
         <Router>
           <Suspense>
             <Routes />
             {/* <DayScheduler /> */}
           </Suspense>
         </Router>
-        </HelmetProvider>
+        {/* </HelmetProvider> */}
       </LocalizationProvider>
     </ThemeProvider>
   );

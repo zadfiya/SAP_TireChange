@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Paper } from "@mui/material";
+import { CircularProgress, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 
 const Tile = ({
@@ -72,7 +72,17 @@ const Tile = ({
           {title}
         </Box>
       </Box>
-      <Box sx={{ ...bodyStyles }}>{children}</Box>
+      <Box
+        sx={{
+          ...bodyStyles,
+          ...(isLoading && {
+            alignItems: "center",
+            justifyContent: "center",
+          }),
+        }}
+      >
+        {isLoading ? <CircularProgress /> : children}
+      </Box>
     </Box>
   );
 };

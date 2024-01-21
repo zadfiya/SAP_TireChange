@@ -41,25 +41,26 @@ const labels = [
   "Class 2 Cars",
 ];
 
-export const data = {
+export const getData = (data) => ({
   labels,
   datasets: [
     {
       label: "Served Customers",
-      // data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      data: data.map((d) => d.acceptedCustomers),
+      backgroundColor: "rgba(255, 99, 132, 0.8)",
     },
     {
-      label: "Lost Customers",
-      // data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      label: "Turned Away Customers",
+      data: data.map((d) => d.turnedAwayCustomers),
+      backgroundColor: "rgba(53, 162, 235, 0.8)",
     },
   ],
-};
-const CustomerGraph = () => {
+});
+
+const CustomerGraph = ({ data }) => {
   return (
     <Box component={Paper}>
-      <Bar options={options} data={data} />
+      <Bar options={options} data={getData(data)} />
     </Box>
   );
 };

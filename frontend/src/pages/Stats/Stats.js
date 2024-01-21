@@ -20,7 +20,7 @@ const Stats = () => {
         renderInput={(params) => <Box {...params} />}
       />
 
-      <Graphs />
+      <Graphs date={date} />
     </Page>
   );
 };

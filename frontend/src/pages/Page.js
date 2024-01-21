@@ -9,6 +9,7 @@ const Page = ({ title, children }) => {
       // component={Paper}
       minWidth={0}
       padding={"20px"}
+      // flex={1}
     >
       <Box fontSize={"2rem"}>{title}</Box>
       <Box padding={"0px 0px"}>{children}</Box>

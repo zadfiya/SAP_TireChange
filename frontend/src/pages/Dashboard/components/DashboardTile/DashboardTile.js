@@ -93,6 +93,7 @@ const DashboardTile = ({
 
   return (
     <Tile
+      isLoading={isLoading}
       Icon={Icon}
       // title={title}
       styles={{

@@ -1,20 +1,19 @@
 const express = require("express");
+// const ETLCSV = require("./src/crons/ETLCSV.js")
+const ExtractCSV = require("./src/crons/ExtractCSV");
 require("dotenv").config();
-const connectdb = require("./db/db");
-const app = express();
-var cron = require("./src/Routes/cron");
-var morgan = require("morgan");
-const indexRouter = require('./src/Routes/index')
-const adminRouter = require('./src/Admin/Routes/index')
-const sendMail = require('./src/helper/mailer')
-const fileUpload = require("express-fileupload");
 var cors = require("cors");
-async () => {
-    await connectdb()
-}
-connectdb();
-app.use(cors());
-app.use(express.json());
-app.use(morgan("dev"))
+const connectDB  = require("./Src/Config/DB");
+const indexRouter = require("./Src/Routes/index");
+const app = express();
 
-app.listen(process.env.PORT);
+// ETLCSV()
+ExtractCSV()
+connectDB();
+app.use(cors())
+app.use(express.json());
+
+app.use("/api/v1",indexRouter)
+app.use("/",(req,res)=>{res.json({success:true,message:"You are at Tire Change Site's Backend"})})
+
+app.listen(process.env.PORT,()=>console.log("Server Running on port: "+process.env.PORT));

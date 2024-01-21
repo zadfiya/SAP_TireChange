@@ -1,9 +1,9 @@
 import { lazy } from "react";
 // import Stats from "./pages/Stats/Stats.js";
 
-const NotFoundPage = lazy(() =>
-  import("./pages/404/NotFoundPage.js" /* webpackChunkName: "NotFoundPage" */)
-);
+// const NotFoundPage = lazy(() =>
+//   import("./pages/404/NotFoundPage.js" /* webpackChunkName: "NotFoundPage" */)
+// );
 const DashboardPage = lazy(() =>
   import("./pages/Dashboard/Dashboard.js" /* webpackChunkName: "Dashboard" */)
 );
@@ -35,9 +35,9 @@ export const customRoutes = [
     Component: StatsPage,
     isActive: true,
   },
-  {
-    path: "/404/*",
-    Component: NotFoundPage,
-    isActive: true,
-  },
+  // {
+  //   path: "/404/*",
+  //   Component: NotFoundPage,
+  //   isActive: true,
+  // },
 ];
