@@ -21,8 +21,10 @@ exports.vehicleChargeById = function(id)
             break
         case "65ac38651345cb2eea7dd1c8":
             charge=250
+            break
         case "65ac38701345cb2eea7dd1ca":
-            charge = 600
+            charge = 700
+            break
         default:
             charge=0 
     }

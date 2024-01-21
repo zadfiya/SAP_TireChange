@@ -18,6 +18,14 @@ const BookingSchema = new mongoose.Schema(
                 type:Number,
                 default:0
             },
+            acceptedCustomers:{
+                type:Number,
+                default:0
+            },
+            turnedAwayCustomers:{
+                type:Number,
+                default:0 
+            },
             Bookings:[
                 {
                     timestamps:{
@@ -97,9 +105,14 @@ BookingSchema.methods.bookingSave = async function (bookObj,next)
     if(bookObj.status =="TurnedAway")
     {
         booking.data.totalTurnedaway += vehicleChargeById(bookObj.vehicleType)
+        booking.data.turnedAwayCustomers +=1
     }
     else
+    {
         booking.data.totalReveneue +=vehicleChargeById(bookObj.vehicleType)
+        booking.data.acceptedCustomers +=1
+
+    }
     await booking.save()
         let masterTableObj = await MasterTable.findOne({})
     if(!masterTableObj)
@@ -111,7 +124,6 @@ BookingSchema.methods.bookingSave = async function (bookObj,next)
         masterTableObj = await MasterTable.create(objToSave)
     }   
     await masterTableObj.updateTable(bookObj,next)
-    next()
 }
 
 // BookingSchema.post('save', async function (next) {

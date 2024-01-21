@@ -10,6 +10,8 @@ const app = express();
 ExtractCSV()
 connectDB();
 app.use(express.json());
+
 app.use("/api/v1",indexRouter)
+app.use("/",(req,res)=>{res.json({success:true,message:"You are at Tire Change Site's Backend"})})
 
 app.listen(process.env.PORT,()=>console.log("Server Running on port: "+process.env.PORT));

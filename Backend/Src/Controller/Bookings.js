@@ -22,8 +22,22 @@ const saveBookingToDB = asyncHandler(async(req,res,next)=>{
 })
 
 const getAllBookingsFrmDB = asyncHandler(async(req,res)=>{
-    const bookingList = await Booking.find()
+    const bookingList = await Booking.find().populate({path:"data.Bookings.vehicleType",select:"name"})
     give_response(res,200,true,"",bookingList)
 })
 
-module.exports = {saveBookingToDB,getAllBookingsFrmDB}
+const getBookingByDate = asyncHandler(async(req,res)=>{
+    let {date} = req.params
+    let formattedDate = date.split('T')[0];
+    const booking = await Booking.findOne({date:formattedDate})
+    if(booking)
+    {
+        give_response(res,200,`Statistics for Date: ${formattedDate}`,booking)
+    }
+    else
+    {
+        give_response(res,400,`Statistics not found for Date: ${formattedDate}`)
+    }
+})
+
+module.exports = {saveBookingToDB,getAllBookingsFrmDB,getBookingByDate}
