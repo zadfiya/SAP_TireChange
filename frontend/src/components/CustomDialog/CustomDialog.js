@@ -101,7 +101,7 @@ const carOptions = [
 
 const CustomDialog = ({ open, handleClose }) => {
   const [carType, setCarType] = React.useState(null);
-  const [status, setStatus] = React.useState(0);
+  const [status, setStatus] = React.useState("");
 
   return (
     <Dialog
@@ -175,34 +175,36 @@ const CustomDialog = ({ open, handleClose }) => {
             </Button>
           </div>
 
-          <Box
-            sx={{
-              ...styles.msgContainer,
-              ...(status === 0
-                ? {
-                    borderColor: "#ddd",
-                    color: "#333",
-                    backgroundColor: "#ddd",
-                  }
+          {status !== "" && (
+            <Box
+              sx={{
+                ...styles.msgContainer,
+                ...(status === 0
+                  ? {
+                      borderColor: "#ddd",
+                      color: "#333",
+                      backgroundColor: "#ddd",
+                    }
+                  : status === 2
+                  ? {
+                      borderColor: "#f44336",
+                      color: "#f44336",
+                      backgroundColor: "#f4433630",
+                    }
+                  : {
+                      borderColor: "#4caf50",
+                      color: "#4caf50",
+                      backgroundColor: "#4caf5030",
+                    }),
+              }}
+            >
+              {status === 0
+                ? "waiting for response..."
                 : status === 2
-                ? {
-                    borderColor: "#f44336",
-                    color: "#f44336",
-                    backgroundColor: "#f4433630",
-                  }
-                : {
-                    borderColor: "#4caf50",
-                    color: "#4caf50",
-                    backgroundColor: "#4caf5030",
-                  }),
-            }}
-          >
-            {status === 0
-              ? "waiting for response..."
-              : status === 2
-              ? "No slot available"
-              : "Slot available"}
-          </Box>
+                ? "No slot available"
+                : "Slot available"}
+            </Box>
+          )}
         </DialogContentText>
       </DialogContent>
       {/* <DialogActions>

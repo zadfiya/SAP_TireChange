@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { Divider, Paper } from "@mui/material";
-import { lighten } from "@mui/system";
+
 import Box from "@mui/material/Box";
 import Tile from "../../../../ui/Tile/Tile";
 

@@ -29,6 +29,14 @@ const options = {
     title: {
       display: true,
       text: "Customers served/Lost",
+      color: "#000",
+
+      font: {
+        size: 16,
+        weight: 500,
+
+        // color: "#000",
+      },
     },
   },
 };

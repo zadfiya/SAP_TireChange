@@ -42,7 +42,7 @@ export const getData = (data, isGainedRevenue) => ({
 
 const RevenueLossGraph = ({ data, isGainedRevenue = true, title }) => {
   return (
-    <Box component={Paper} flex={1} padding={"20px"}>
+    <Box component={Paper} flex={1} padding={"10px"}>
       <Box textAlign={"center"}>{title}</Box>
       <Pie width={"100%"} data={getData(data, isGainedRevenue)} />
     </Box>

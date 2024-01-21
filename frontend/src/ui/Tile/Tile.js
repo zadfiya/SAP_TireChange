@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "@mui/material/styles";
+
 import { CircularProgress, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 
@@ -15,8 +15,6 @@ const Tile = ({
   } = {},
   children,
 }) => {
-  const theme = useTheme();
-
   return (
     <Box
       component={Paper}
@@ -33,13 +31,7 @@ const Tile = ({
         boxShadow:
           "0px 1px 2px rgba(0, 0, 0, 0.1), 0px 5px 15px rgba(0, 0, 0, 0.05), 0px 0px 15px rgba(0, 0, 0, 0.05)",
         ...rootStyles,
-        // cursor: onClickCard ? "pointer" : "initial",
-        // "&:hover": {
-        //   opacity: onClickCard ? 0.7 : 1,
-        // },
       }}
-      // onClick={onClickCard}
-      // style={{  }}
     >
       <Box
         sx={{
@@ -51,11 +43,7 @@ const Tile = ({
           gap: "10px",
           height: "75px",
           ...titleContainerStyles,
-          // backgroundColor: textColor,
-          // color: theme.palette.getContrastText(textColor),
-          // cursor: onClickIcon ? "pointer" : "initial",
         }}
-        // onClick={onClickIcon}
       >
         {Icon}
         <Box
@@ -63,11 +51,9 @@ const Tile = ({
             color: "#777",
             marginTop: "4px",
             transition: "opacity 0.3s ease",
-            // cursor: onClickLabel ? "pointer" : "initial",
           }}
           className={"font-size-h6 "}
           style={{ ...titleStyles }}
-          // onClick={onClickLabel}
         >
           {title}
         </Box>

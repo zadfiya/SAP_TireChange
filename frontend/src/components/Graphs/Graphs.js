@@ -21,16 +21,22 @@ const Graphs = ({ date }) => {
       marginTop={"20px"}
       width={"100%"}
       display={"grid"}
-      gridTemplateColumns={"50% 50%"}
-      gap={"20px"}
-      sx={{ "& > div:nth-child(3)": { gridColumn: "span 2" } }}
+      gridTemplateColumns={"20% 80%"}
+      gap={"12px"}
+      sx={{
+        "& > div:nth-child(3)": {
+          gridRow: "1 / span 2",
+          gridColumn: "2 / span 1",
+        },
+      }}
     >
-      <RevenueLossGraph data={data?.vehicleWise || []} title="Revenue Loss" />
+      {" "}
       <RevenueLossGraph
         data={data?.vehicleWise || []}
         isGainedRevenue={false}
         title="Revenue Gained"
       />
+      <RevenueLossGraph data={data?.vehicleWise || []} title="Revenue Loss" />
       <CustomerGraph data={data?.vehicleWise || []} />
     </Box>
   );

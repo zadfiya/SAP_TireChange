@@ -10,7 +10,7 @@ const TilesContainer = styled("div")({
   display: "grid",
   gridTemplateColumns: "repeat(3,1fr)",
   gap: "15px",
-  padding: "20px",
+  padding: "40px 20px",
   "& > div:nth-child(1)": {
     height: "auto",
   },
