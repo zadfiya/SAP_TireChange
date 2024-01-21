@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { Box, Divider, IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -34,6 +34,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    // borderRadius: "10px",
   },
   tile: {
     padding: "10px",
@@ -41,6 +42,7 @@ const styles = {
     color: "#111",
     cursor: "pointer",
     transition: "box-shadow 0.3s ease",
+    borderRadius: "10px",
   },
   msgContainer: {
     width: "auto",
@@ -67,31 +69,31 @@ const styles = {
 const carOptions = [
   {
     label: "Compact",
-    value: "compact",
+    value: "65ac38201345cb2eea7dd1c1",
     color: "#ef9a9a",
     Icon: <Img src={CompactCarImg} />,
   },
   {
     label: "Medium",
-    value: "medium",
+    value: "65ac382f1345cb2eea7dd1c4",
     color: "#ce93d8",
     Icon: <Img src={MediumCarImg} />,
   },
   {
-    label: "Full Size",
-    value: "fullSize",
+    label: "Full-size",
+    value: "65ac38341345cb2eea7dd1c6",
     color: "#90caf9",
     Icon: <Img src={fullSizeCarImg} />,
   },
   {
-    label: "Class 1",
-    value: "class1",
+    label: "Class 1 truck",
+    value: "65ac38651345cb2eea7dd1c8",
     color: "#80cbc4",
     Icon: <Img src={class1CarImg} />,
   },
   {
-    label: "Class 2",
-    value: "class2",
+    label: "Class 2 truck",
+    value: "65ac38701345cb2eea7dd1ca",
     color: "#a5d6a7",
     Icon: <Img src={class2CarImg} />,
   },
@@ -99,7 +101,7 @@ const carOptions = [
 
 const CustomDialog = ({ open, handleClose }) => {
   const [carType, setCarType] = React.useState(null);
-  const [status, setStatus] = React.useState(null);
+  const [status, setStatus] = React.useState(0);
 
   return (
     <Dialog
@@ -108,6 +110,7 @@ const CustomDialog = ({ open, handleClose }) => {
       keepMounted
       onClose={handleClose}
       aria-describedby="booking-dialog"
+      maxWidth="md"
     >
       <DialogTitle sx={{ fontWeight: "900" }}>{"Schedule Service"}</DialogTitle>
       <IconButton
@@ -138,12 +141,17 @@ const CustomDialog = ({ open, handleClose }) => {
                     carType === item.value
                       ? "1px 1px 8px 0px rgba(0,0,0,0.2)"
                       : "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
                 }}
                 onClick={() => {
                   setCarType(item.value);
                 }}
               >
-                {item.Icon}
+                <div style={{ width: "auto", height: "50px" }}>{item.Icon}</div>
+                <Divider />
                 {item.label}
               </div>
             ))}
@@ -160,13 +168,41 @@ const CustomDialog = ({ open, handleClose }) => {
               variant="outlined"
               disabled={!carType}
               onClick={() => {
-                setStatus("Wit For Response....");
+                setStatus(0);
               }}
             >
               Check for slot
             </Button>
           </div>
-          {status && <div style={styles.msgContainer}>{status}</div>}
+
+          <Box
+            sx={{
+              ...styles.msgContainer,
+              ...(status === 0
+                ? {
+                    borderColor: "#ddd",
+                    color: "#333",
+                    backgroundColor: "#ddd",
+                  }
+                : status === 2
+                ? {
+                    borderColor: "#f44336",
+                    color: "#f44336",
+                    backgroundColor: "#f4433630",
+                  }
+                : {
+                    borderColor: "#4caf50",
+                    color: "#4caf50",
+                    backgroundColor: "#4caf5030",
+                  }),
+            }}
+          >
+            {status === 0
+              ? "waiting for response..."
+              : status === 2
+              ? "No slot available"
+              : "Slot available"}
+          </Box>
         </DialogContentText>
       </DialogContent>
       {/* <DialogActions>
