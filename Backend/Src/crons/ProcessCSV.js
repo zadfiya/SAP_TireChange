@@ -63,8 +63,8 @@ const ProcessCSV = (dataFile) => {
     for(date of Object.keys(bookingData)) {
         let x = [];
         let slots = {
-            totalRevenue: 0,
-            totalTurnedAwayRevenue: 0,
+            // totalRevenue: 0,
+            // totalTurnedAwayRevenue: 0,
             turnedAwaySlots: [],
             dedicated: {
                 "compact": [],
@@ -102,7 +102,7 @@ const ProcessCSV = (dataFile) => {
                 // console.log(booking.startTime , openingHour , booking.endTime , closingHour);
                 booking["status"] = "TurnedAway"
                 slots.turnedAwaySlots.push(booking);
-                slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType]
+                // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType]
                 continue;
             }
 
@@ -110,7 +110,7 @@ const ProcessCSV = (dataFile) => {
                 // Add to dedicated Slot
                 booking["status"] = "Serviced";
                 booking["bay"] = bay[booking.vehicleType];
-                slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                // slots.totalRevenue += carRevenueMap[booking.vehicleType];
                 dedicatedSlot.push(booking);
             }
             else {
@@ -122,7 +122,7 @@ const ProcessCSV = (dataFile) => {
 
                         booking["status"] = "Serviced";
                         booking["bay"] = (i + 1 + bayLength);
-                        slots.totalRevenue += carRevenueMap[booking.vehicleType];
+                        // slots.totalRevenue += carRevenueMap[booking.vehicleType];
                         regularSlot[i].push(booking);
                         isBooked = true;
                         break;
@@ -132,7 +132,7 @@ const ProcessCSV = (dataFile) => {
                 if(!isBooked) {
                     booking["status"] = "TurnedAway";
                     slots.turnedAwaySlots.push(booking);
-                    slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType];
+                    // slots.totalTurnedAwayRevenue += carRevenueMap[booking.vehicleType];
                 }
             }
         }
