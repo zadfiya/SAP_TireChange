@@ -5,10 +5,20 @@ import React from "react";
 import { navConfig } from "./navConfig";
 import Logo from "./assets/logo.svg";
 import { Link, useLocation } from "react-router-dom";
+import CustomDialog from "./components/CustomDialog/CustomDialog";
 
 const CustomAppbar = () => {
   const theme = useTheme();
   const { pathname } = useLocation();
+  const [open, setOpen] = React.useState(false);
+
+  const handleButton = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <AppBar
       sx={{
@@ -55,8 +65,32 @@ const CustomAppbar = () => {
           {navConfig.map((item) => (
             <NavItem item={item} key={item.title} />
           ))}
+          <Box
+            component={Link}
+            sx={{
+              textDecoration: "unset",
+              color: "#777",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                color: "#000",
+                textDecoration: "underline",
+              },
+              fontWeight: 600,
+            }}
+            // to={item.path}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            {"Book a Slot"}
+          </Box>
         </Box>
       </Toolbar>
+      <CustomDialog
+        open={open}
+        handleButton={handleButton}
+        handleClose={handleClose}
+      />
     </AppBar>
   );
 };
