@@ -7,4 +7,5 @@ const app = express();
 connectDB();
 app.use(express.json());
 app.use("/api/v1",indexRouter)
+
 app.listen(process.env.PORT,()=>console.log("Server Running on port: "+process.env.PORT));
