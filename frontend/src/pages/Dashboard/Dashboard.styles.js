@@ -14,7 +14,7 @@ const Img = styled("img")({
   width: "auto",
   backgroundColor: "#efefef",
   borderRadius: "10px",
-  padding: "10px",
+  padding: "5px",
   boxSizing: "border-box",
   // objectFit: "contain",
 });
