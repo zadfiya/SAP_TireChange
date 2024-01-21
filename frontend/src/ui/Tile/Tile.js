@@ -7,7 +7,12 @@ const Tile = ({
   isLoading = false,
   title,
   Icon,
-  styles: { rootStyles = {}, bodyStyles = {}, titleStyles = {} } = {},
+  styles: {
+    rootStyles = {},
+    bodyStyles = {},
+    titleStyles = {},
+    titleContainerStyles = {},
+  } = {},
   children,
 }) => {
   const theme = useTheme();
@@ -23,13 +28,14 @@ const Tile = ({
         padding: "5px",
         // gap: "10px",
         backgroundColor: "#fff",
+        ...rootStyles,
         // cursor: onClickCard ? "pointer" : "initial",
         // "&:hover": {
         //   opacity: onClickCard ? 0.7 : 1,
         // },
       }}
       // onClick={onClickCard}
-      style={{ ...rootStyles }}
+      // style={{  }}
     >
       <Box
         sx={{
@@ -40,6 +46,7 @@ const Tile = ({
           justifyContent: "center",
           gap: "10px",
           height: "55px",
+          ...titleContainerStyles,
           // backgroundColor: textColor,
           // color: theme.palette.getContrastText(textColor),
           // cursor: onClickIcon ? "pointer" : "initial",

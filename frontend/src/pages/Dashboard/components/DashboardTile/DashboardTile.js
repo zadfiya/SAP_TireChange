@@ -28,7 +28,7 @@ const TileScetion = ({
       {title}
     </Box>
     <Box sx={{ display: "flex", gap: "5px" }}>
-      <Box flex={1}>
+      <Box flex={1} color={(theme) => theme.palette.success.light}>
         <Box sx={{ fontSize: "2rem", lineHeight: 1, fontWeight: 700 }}>
           {gainedValue}
         </Box>
@@ -37,7 +37,10 @@ const TileScetion = ({
         </Box>
       </Box>
       <Box flex={1}>
-        <Box sx={{ fontSize: "2rem", lineHeight: 1, fontWeight: 700 }}>
+        <Box
+          sx={{ fontSize: "2rem", lineHeight: 1, fontWeight: 700 }}
+          color={(theme) => theme.palette.error.light}
+        >
           {lostValue}
         </Box>
         <Box fontSize={"0.8rem"} color={"#555"}>
