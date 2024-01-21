@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { Box, Paper } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -27,7 +28,7 @@ const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "Customers served/Lost",
     },
   },
 };
@@ -44,24 +45,23 @@ export const data = {
   labels,
   datasets: [
     {
-      label: "Gained Revenue",
+      label: "Served Customers",
       // data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: "rgba(255, 99, 132, 0.5)",
     },
     {
-      label: "Lost Revenue",
+      label: "Lost Customers",
       // data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: "rgba(53, 162, 235, 0.5)",
     },
   ],
 };
-
-const Graphs = () => {
+const CustomerGraph = () => {
   return (
-    <div>
+    <Box component={Paper}>
       <Bar options={options} data={data} />
-    </div>
+    </Box>
   );
 };
 
-export default Graphs;
+export default CustomerGraph;

@@ -18,7 +18,7 @@ const TileScetion = ({
       flexDirection: "column",
       textAlign: "left",
       flex: 1,
-      backgroundColor: "#eee",
+      backgroundColor: "#efefef",
       borderRadius: "10px",
       padding: "10px",
       gap: "5px",

@@ -8,11 +8,19 @@ const TilesContainer = styled("div")({
   height: "auto",
   width: "100%",
   display: "grid",
-  gridTemplateColumns: "repeat(5,1fr)",
+  gridTemplateColumns: "repeat(6,1fr)",
   gap: "10px",
   padding: "20px",
-  "& > div:nth-child(n+3)": {
+  "& > div:nth-child(1),& > div:nth-child(2)": {
+    gridColumn: "span 2",
+  },
+  "& > div:nth-child(3),& > div:nth-child(4),& > div:nth-child(5)": {
     gridRow: "2",
+    gridColumn: "span 2",
+  },
+  "& > div:nth-child(6),& > div:nth-child(7)": {
+    gridRow: "3",
+    gridColumn: "span 2",
   },
 });
 
