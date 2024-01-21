@@ -6,7 +6,7 @@ import Scheduler, {
 } from "react-big-scheduler-stch";
 import "react-big-scheduler-stch/lib/css/style.css";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { getBookingDataForDate } from "../../apis/apis";
 import { parseDateString } from "../../utils/utils";
 import { Box } from "@mui/system";
@@ -40,25 +40,32 @@ const idMap = {
   },
 };
 
-const schedulerData = new SchedulerData(
-  new dayjs(new Date("2022-11-26T10:20:00.000Z").toUTCString()).format(
-    DATE_FORMAT
-  ),
-  ViewType.Day
-);
-schedulerData.config.dragAndDropEnabled = false;
-schedulerData.config.dayMaxEvents = 10;
-schedulerData.config.creatable = false;
-schedulerData.config.endResizable = false;
-schedulerData.config.movable = false;
+// const schedulerData = new SchedulerData(
+//   new dayjs(new Date("2022-11-26T10:20:00.000Z").toUTCString()).format(
+//     DATE_FORMAT
+//   ),
+//   ViewType.Day,
+//   false,
+//   false,
+//   {
+//     ddragAndDropEnabled: false,
+//     dayMaxEvents: 10,
+//     creatable: false,
+//     endResizable: false,
+//     movablera: false,
+//   }
+// );
+// schedulerData.config.dragAndDropEnabled = false;
+// schedulerData.config.dayMaxEvents = 10;
+// schedulerData.config.creatable = false;
+// schedulerData.config.endResizable = false;
+// schedulerData.config.movable = false;
 
 // schedulerData.setSchedulerLocale("en");
 
-schedulerData.setResources(
-  Array(10)
-    .fill("")
-    .map((_, i) => ({ id: i + 1, name: "slot - " + (i + 1) }))
-);
+const resources = Array(10)
+  .fill("")
+  .map((_, i) => ({ id: i + 1, name: "slot - " + (i + 1) }));
 
 const getDataFormat = (data = []) =>
   data
@@ -107,7 +114,28 @@ const eventItemPopoverTemplateResolver = (
 };
 
 const Bookings = () => {
+  const [schData, setSchData] = useState(() => {
+    const schData = new SchedulerData(
+      new dayjs(new Date("2022-11-26T10:20:00.000Z").toUTCString()).format(
+        DATE_FORMAT
+      ),
+      ViewType.Day,
+      false,
+      false,
+      {
+        dragAndDropEnabled: false,
+        dayMaxEvents: 10,
+        creatable: false,
+        endResizable: false,
+        movablera: false,
+      }
+    );
+    schData.setResources(resources);
+    return schData;
+  });
   const [datee, setDate] = useState(dayjs("2022-11-26T10:20:00.000Z"));
+
+  const [forRender, setForRender] = useState(0);
 
   const [open, setOpen] = useState(false);
 
@@ -115,19 +143,45 @@ const Bookings = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // schedulerData.setEvents(getDataFormat(ddd?.message?.data?.Bookings || []));
-    getBookingDataForDate(datee).then((data) => {
+    getBookingDataForDate(datee?.toISOString()).then((data) => {
       console.log(data);
-      schedulerData.setEvents(
-        getDataFormat(ddd?.message?.data?.Bookings || [])
+
+      // schedulerData.setResources(resources);
+      // schedulerData.setEvents([]);
+      // schedulerData.setEvents(
+      //   getDataFormat(data?.message?.data?.Bookings || [])
+      // );
+
+      const updatedSchedulerData = new SchedulerData(
+        dayjs(datee),
+        ViewType.Day,
+        false,
+        false,
+        {
+          dragAndDropEnabled: false,
+          dayMaxEvents: 10,
+          creatable: false,
+          endResizable: false,
+          movablera: false,
+        }
       );
+      updatedSchedulerData.setResources(resources);
+      updatedSchedulerData.setEvents(
+        getDataFormat(data?.message?.data?.Bookings || [])
+      );
+      setSchData(updatedSchedulerData);
+
+      setForRender((prev) => prev + 1);
+      // schedulerData.config.s
     });
   }, [datee]);
 
   return (
     // <DndProvider backend={HTML5Backend}>
     <Box>
+      <div>{forRender}</div>
       <Box
         sx={{
           padding: "10px",
@@ -156,7 +210,7 @@ const Bookings = () => {
       </Box>
 
       <Scheduler
-        schedulerData={schedulerData}
+        schedulerData={schData}
         eventItemPopoverTemplateResolver={eventItemPopoverTemplateResolver}
         prevClick={() => {}}
         nextClick={() => {}}
