@@ -7,8 +7,9 @@ const getMasterTable = asyncHandler(async(req,res)=>{
     const masterTable = await Master.findOne({}).populate({
         path: 'vehicleWise.id',
         model: 'Vehicle', // The model to use for population
-        select: 'name', // The fields to select from the Vehicle model
+        select: 'name charge', // The fields to select from the Vehicle model
       });
+      
     give_response(res,200,true,"",masterTable)
 })
 
